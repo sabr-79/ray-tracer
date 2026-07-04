@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
-# Read the PPM file y)
+# Read the PPM file
 img = mpimg.imread("image.ppm")
 
 

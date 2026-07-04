@@ -1,7 +1,6 @@
 #ifndef VEC3_H
 #define VEC3_H
-#include <cmath>
-#include <iostream>
+#include "main_header.h"
 using namespace std;
 
 class vec3{

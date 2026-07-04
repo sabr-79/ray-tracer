@@ -1,6 +1,7 @@
 #ifndef COLOR_H
 #define COLOR_H
 #include "vec3.h"
+#include "main_header.h"
 #include <iostream>
 using namespace std;
 
