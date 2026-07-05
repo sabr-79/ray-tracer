@@ -8,10 +8,23 @@ using namespace std;
 
 using color = vec3;
 
+inline double linear_to_gamma(double lin_component){
+    if (lin_component > 0){
+        return sqrt(lin_component);
+    }
+    return 0;
+}
+
 void write_color(ostream& out, const color& pixel_color){
     auto r = pixel_color.x();
     auto g = pixel_color.y();
     auto b = pixel_color.z();
+
+    // applying lin to gamma transform for gamma 2 
+
+    r = linear_to_gamma(r);
+    g = linear_to_gamma(g);
+    b = linear_to_gamma(b);
 
     static const interval intensity(0.000, 0.999);
     
