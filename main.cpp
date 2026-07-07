@@ -5,6 +5,7 @@
 #include "material.h"
 #include "sphere.h"
 #include "camera.h"
+#include <chrono>
 
 using namespace std;
 
@@ -12,6 +13,7 @@ using namespace std;
 
 int main() {
     clog << "Hello, Ray Tracer!\n";
+    auto start = chrono::high_resolution_clock::now();
 
     hittable_list world;
 
@@ -78,5 +80,8 @@ int main() {
 
     cam.render(world);
     
+    auto end = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<std::chrono::seconds>(end - start);
+    clog << "Render completed in " << duration.count() << " seconds.\n";
 
 }
