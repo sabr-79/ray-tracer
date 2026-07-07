@@ -61,6 +61,8 @@ int main() {
     //world.add(make_shared<sphere>(point3(0,0,-1), 0.5));
     //world.add(make_shared<sphere>(point3(0,-100.5,-1), 100));
 
+    world = hittable_list(make_shared<bvh_node>(world));
+
     camera cam;
 
     cam.aspect_ratio = 16.0 / 9.0;
