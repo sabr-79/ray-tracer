@@ -3,6 +3,7 @@
 
 #include "hittable.h"
 #include "material.h"
+#include <thread>
 using namespace std;
 
 class camera {
@@ -18,25 +19,46 @@ class camera {
         double defocus_angle = 0; // variation angle of rays thru each pixel
         double focus_dist = 10; // dist between lookfrom point to plane of perfect focus
 
-    
-        void render(const hittable& world){
+
+
+        void render(const hittable& world) {
             initialize();
-        
+
+            vector<color> framebuffer(width * height);
             cout << "P3\n" << width << " " << height << "\n255\n";
 
-        for (int j = 0; j < height; j++){ 
-        clog << "Scanlines remaining: " << (height - j) << "\n";
-            for (int i = 0; i < width; i++){
-               color pixel_color(0,0,0);
-               for (int sample = 0; sample < samples_per_pixel; sample++){
-                    ray r = get_ray(i, j);
-                    pixel_color += ray_color(r, max_depth, world); 
-               }
-               write_color(cout, pixel_samples_scale * pixel_color);
+            // Determine number of hardware threads
+            unsigned int num_threads = std::thread::hardware_concurrency();
+            if (num_threads == 0) num_threads = 4; // fallback
+
+            vector<std::thread> threads;
+            threads.reserve(num_threads);
+
+            // Divide rows among threads
+            for (unsigned int t = 0; t < num_threads; ++t) {
+                threads.emplace_back([&, t]() {
+                for (int j = t; j < height; j += num_threads) {
+                    for (int i = 0; i < width; ++i) {
+                        color pixel_color(0, 0, 0);
+                        for (int sample = 0; sample < samples_per_pixel; ++sample) {
+                            ray r = get_ray(i, j);
+                            pixel_color += ray_color(r, max_depth, world);
+                        }
+                        framebuffer[j * width + i] = pixel_samples_scale * pixel_color;
+                    }
+                }
+                });
             }
+
+            // Wait for all threads to finish
+            for (auto& th : threads) th.join();
+
+            // Output the framebuffer
+            for (const color& c : framebuffer) {
+                write_color(std::cout, c);
+            }
+            std::clog << "\rDone.                 \n";
         }
-        clog << "\rDone.                 \n"; 
-    }
 
     private: 
         int height; // Rendered image height

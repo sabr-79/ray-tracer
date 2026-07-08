@@ -84,5 +84,4 @@ int main() {
     auto duration = chrono::duration_cast<std::chrono::seconds>(end - start);
     clog << "Render completed in " << duration.count() << " seconds.\n";
 
-
 }

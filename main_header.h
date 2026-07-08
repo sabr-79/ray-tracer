@@ -6,6 +6,7 @@
 #include <limits>
 #include <memory>
 #include <cstdlib>
+#include <random>
 
 using namespace std;
 
@@ -20,9 +21,12 @@ inline double degrees_to_radians(double degrees) {
     return degrees * pi / 180.0;
 }
 
+// thread safe for gcd
 inline double random_double() {
     // returns random real [0, 1)
-    return rand() / (RAND_MAX + 1.0);
+    static thread_local mt19937 rng(random_device{}());
+    static thread_local uniform_real_distribution<double> dist(0.0, 1.0);
+    return dist(rng);
 }
 
 inline double random_double(double min, double max) {
@@ -32,7 +36,9 @@ inline double random_double(double min, double max) {
 
 inline int random_int(int min, int max) {
     // Returns a random integer in [min,max].
-    return int(random_double(min, max+1));
+    static thread_local mt19937 rng(std::random_device{}());
+    uniform_int_distribution<int> dist(min, max);
+    return dist(rng);
 }
 
 // Common Headers
