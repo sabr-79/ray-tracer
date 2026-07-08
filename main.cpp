@@ -83,9 +83,6 @@ int main() {
     auto end = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<std::chrono::seconds>(end - start);
     clog << "Render completed in " << duration.count() << " seconds.\n";
-    
-    auto end = chrono::high_resolution_clock::now();
-    auto duration = chrono::duration_cast<std::chrono::seconds>(end - start);
-    clog << "Render completed in " << duration.count() << " seconds.\n";
+
 
 }
