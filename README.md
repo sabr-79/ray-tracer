@@ -12,12 +12,12 @@
 - BVH: 25s. 
 
 **From benchmark.zsh, apple branch (using thread lib over gcd) vs main branch**:
-===== Results =====
-Main average:      43.37s
-Parallel average:  12.63s
-Speedup:           3.43x
-Individual times:
-  main:      42.7052400112152 43.605740070343 43.7865800857544
-  parallel:  13.2632501125336 12.5142600536346 12.1059901714325
+- ===== Results =====
+- Main average:      43.37s
+- Parallel average:  12.63s
+- Speedup:           3.43x
+- Individual times:
+  - main:      42.7052400112152 43.605740070343 43.7865800857544
+  - parallel:  13.2632501125336 12.5142600536346 12.1059901714325
 
 Main in this case has BVH, Parallel is the apple branch w/ parallelism.
