@@ -4,11 +4,20 @@
 **To-do**:
 - Get a simple, general ray tracer working: baseline Check.
 - Add BVH Check.
-- Apple Optimizations: GCD, vDSP, Metal for M2
-- Benchmark General vs Optimized
+- Apple Optimizations: GCD -- used thread lib instead, SIMD, Metal (?)
+- Benchmark General vs Optimized -- script is set up, look into recording cache hits/misses
 
-**Current Performance Stats:**
+**Current Performance Stats**:
 - Naive (w/o BVH): 777s.
 - BVH: 25s. 
 
-### Since the final scene render takes a long time with naive implementation, I will do future performance checks with the BVH as the baseline. 
+**From benchmark.zsh, apple branch (using thread lib over gcd) vs main branch**:
+===== Results =====
+Main average:      43.37s
+Parallel average:  12.63s
+Speedup:           3.43x
+Individual times:
+  main:      42.7052400112152 43.605740070343 43.7865800857544
+  parallel:  13.2632501125336 12.5142600536346 12.1059901714325
+
+Main in this case has BVH, Parallel is the apple branch w/ parallelism.
