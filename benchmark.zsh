@@ -117,4 +117,4 @@ printf "Parallel average:  ${GREEN}%.2f${NC}s\n" $avg_parallel
 printf "Speedup:           ${GREEN}%.2f${NC}x\n" $speedup
 echo "Individual times:"
 echo "  main:      ${main_times[@]}"
-echo "  parallel:  ${optimized_times[@]}"
+echo "  parallel:  ${parallel_times[@]}"
