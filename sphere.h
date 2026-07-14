@@ -8,8 +8,8 @@ using namespace std;
 
 class sphere : public hittable {
   public:
-    sphere(const point3& center, double radius, shared_ptr<material> mat) : center(center), radius(fmax(0,radius)), mat(mat) {
-      auto rvec = vec3(radius, radius, radius);
+    sphere(const point3& center, float radius, shared_ptr<material> mat) : center(center), radius(fmax(0,radius)), mat(mat) {
+      auto rvec = vec3{radius, radius, radius};
       bbox = aabb(center - rvec, center + rvec);
 
     }
@@ -17,9 +17,9 @@ class sphere : public hittable {
 
     bool hit(const ray& r, interval ray_t, hit_record& rec) const override {
         vec3 oc = center - r.origin();
-        auto a = r.direction().length_squared();
+        auto a = length_squared(r.direction());
         auto h = dot(r.direction(), oc);
-        auto c = oc.length_squared() - radius*radius;
+        auto c = length_squared(oc) - radius*radius;
 
         auto discriminant = h*h - a*c;
         if (discriminant < 0)
@@ -37,7 +37,7 @@ class sphere : public hittable {
 
         rec.t = root;
         rec.p = r.at(rec.t);
-        vec3 outward_normal = (rec.p - center) / radius;
+        vec3 outward_normal = (rec.p - center) / (float)radius;
         rec.set_face_normal(r, outward_normal);
         rec.mat = mat;
 
@@ -49,7 +49,7 @@ class sphere : public hittable {
 
   private:
     point3 center;
-    double radius;
+    float radius;
     shared_ptr<material> mat;
     aabb bbox;
 };

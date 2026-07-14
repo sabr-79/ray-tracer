@@ -12,8 +12,12 @@ using namespace std;
 
 // Constants
 
-const double infinity = numeric_limits<double>::infinity();
+const double infinity = 1e30;
 const double pi = 3.1415926535897932385;
+static thread_local uint32_t rng_state = []{
+    random_device rd;
+    return rd();
+}();
 
 // Utility Functions
 
@@ -23,10 +27,10 @@ inline double degrees_to_radians(double degrees) {
 
 // thread safe for gcd
 inline double random_double() {
-    // returns random real [0, 1)
-    static thread_local mt19937 rng(random_device{}());
-    static thread_local uniform_real_distribution<double> dist(0.0, 1.0);
-    return dist(rng);
+    rng_state ^= rng_state << 13;
+    rng_state ^= rng_state >> 17;
+    rng_state ^= rng_state << 5;
+    return (double)rng_state / 4294967296.0;
 }
 
 inline double random_double(double min, double max) {

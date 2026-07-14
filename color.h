@@ -16,9 +16,9 @@ inline double linear_to_gamma(double lin_component){
 }
 
 void write_color(ostream& out, const color& pixel_color){
-    auto r = pixel_color.x();
-    auto g = pixel_color.y();
-    auto b = pixel_color.z();
+    auto r = pixel_color[0];
+    auto g = pixel_color[1];
+    auto b = pixel_color[2];
 
     // applying lin to gamma transform for gamma 2 
 
